@@ -1,0 +1,26 @@
+body{text-align: center;background: #f2f6f8;}
+.img{position:absolute;z-index:1;}
+
+#container{
+    display:inline-block;
+	box-sizing: content-box;
+    width: 807px;
+	height: 869px;
+    margin: 0 auto; 
+    background: black; 
+    position:relative; 
+    border:5px solid black; 
+    border-radius: 10px; 
+    box-shadow: 0 5px 50px #333;
+	
+}
+
+#firstFloorCanvas{
+    position:absolute;
+	border:3px solid red;
+	left: 0;
+	top: 0;
+	width: 804px;
+	height: 866px;
+    z-index:20;
+}

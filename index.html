@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<div id="container">			
+			<img src="firstFloor.png" id="firstFloorImage" usemap="#image-map">
+			<canvas id="firstFloorCanvas"></canvas>			
+			<map name="image-map">
+				<!-- Working Spaces -->
+				<area target="" alt="DeskGroup1" title="DeskGroup1" href="" coords="644,207,569,258" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="DeskGroup2" title="DeskGroup2" href="" coords="567,259,645,310" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="DeskGroup3" title="DeskGroup3" href="" coords="568,311,644,363" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="HR" title="HR" href="" coords="514,586,438,512" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="DeskGroup4" title="DeskGroup4" href="" coords="521,759,439,612" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="DeskGroup5" title="DeskGroup5" href="" coords="568,489,644,541" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="DeskGroup6" title="DeskGroup6" href="" coords="569,542,643,592" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="DeskGroup7" title="DeskGroup7" href="" coords="569,593,644,643" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="DeskGroup8" title="DeskGroup8" href="" coords="569,643,645,697" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="Office1" title="Office1" href="" coords="649,424,610,382" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="Office2" title="Office2" href="" coords="609,426,653,469" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="Reception" title="Reception" href="" coords="285,215,320,257" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="Office3" title="Office3" href="" coords="359,207,409,259" shape="rect" onClick="setWorkingArea(this)">
+				
+				<!-- Meeting Rooms -->
+				<area target="" alt="TPGroundFloor" title="TPGroundFloor" href="" coords="216,207,282,294" shape="rect">
+				<area target="" alt="Canteen" title="Canteen" href="" coords="86,320,257,429" shape="rect">
+				<area target="" alt="JamesJoyce" title="JamesJoyce" href="" coords="410,207,477,259" shape="rect">
+				<area target="" alt="SamuelBeckett" title="SamuelBeckett" href="" coords="480,208,543,260" shape="rect">
+				<area target="" alt="OscarWilde" title="OscarWilde" href="" coords="568,382,606,423" shape="rect">
+				<area target="" alt="SeanCasey" title="SeanCasey" href="" coords="568,469,605,426" shape="rect">
+				<area target="" alt="SeamusHeaney" title="SeamusHeaney" href="" coords="650,697,567,744" shape="rect">
+				<area target="" alt="JohnSwift" title="JohnSwift" href="" coords="427,433,469,490" shape="rect">
+				<area target="" alt="WBYeats" title="WBYeats" href="" coords="471,431,547,490" shape="rect">
+			</map>
+		</div>
+	</body>
+	<script>
+	function setWorkingArea(element){
+		var title = element.getAttribute("title");
+		var coordString = element.getAttribute("coords");
+		var coords = coordString.split(",");
+		transformCanvasOnImage();
+		changeColorOfArea(coords[0], coords[1], coords[2], coords[3])
+		alert(coords);
+		return false;
+	}
+	function changeColorOfArea(x1, y1, x2, y2){
+		var canvas = document.getElementById("firstFloorCanvas");
+		var context = canvas.getContext("2d");		
+		context.fillStyle = "#FF0000";
+		context.fillRect(x1, y1, x2, y2);
+	}
+	function transformCanvasOnImage(){
+		var canvas = document.getElementById("firstFloorCanvas");
+		var image = document.getElementById("firstFloorImage");
+		canvas.style.position = "absolute";
+		canvas.style.left = image.offsetLeft;
+		canvas.style.top = image.offsetTop;		
+	}
+	</script>
+</html>
