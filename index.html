@@ -5,8 +5,9 @@
 	</head>
 	<body>
 		<div id="container">			
-			<img src="firstFloor.png" id="firstFloorImage" usemap="#image-map">
-			<canvas id="firstFloorCanvas"></canvas>			
+			<div id="background" style="background-image: url('firstFloor.png');">
+			<canvas id="firstFloorCanvas"></canvas>
+			<img src="transparent.png" alt="transparent.png" usemap="#image-map">
 			<map name="image-map">
 				<!-- Working Spaces -->
 				<area target="" alt="DeskGroup1" title="DeskGroup1" href="" coords="644,207,569,258" shape="rect" onClick="setWorkingArea(this)">
