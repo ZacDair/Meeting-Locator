@@ -1,5 +1,5 @@
 body{text-align: center;background: #f2f6f8;}
-.img{position:absolute;z-index:1;}
+#background{position:absolute;z-index:1;}
 
 #container{
     display:inline-block;
@@ -12,15 +12,22 @@ body{text-align: center;background: #f2f6f8;}
     border:5px solid black; 
     border-radius: 10px; 
     box-shadow: 0 5px 50px #333;
-	
+}
+
+.img{
+    left: 0;
+    top: 0;
+    width: 804px;
+    height: 866px;
+    z-index:20;
 }
 
 #firstFloorCanvas{
     position:absolute;
-	border:3px solid red;
-	left: 0;
-	top: 0;
-	width: 804px;
-	height: 866px;
-    z-index:20;
+    border:3px solid red;
+    left: 0;
+    top: 0;
+    width: 804px;
+    height: 866px;
+    z-index:10;
 }
