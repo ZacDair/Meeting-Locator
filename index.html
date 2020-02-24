@@ -4,61 +4,76 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<div id="container">			
-			<div id="background" style="background-image: url('firstFloor.png');">
+	<h3> Where are you working today ? </h3>
+	<h4 id="workingAreaText"> Selected Working Area: </h4>
+		<div id="container">
+			<img  id="workingArea" src="workingArea.png" alt="Working Area logo">
+			<img id="background" src="firstFloor.png" alt="floorplan image">
 			<canvas id="firstFloorCanvas"></canvas>
-			<img src="transparent.png" alt="transparent.png" usemap="#image-map">
+			<img id="transparentImg" src="transparent.png" alt="transparent image" usemap="#image-map">
 			<map name="image-map">
 				<!-- Working Spaces -->
-				<area target="" alt="DeskGroup1" title="DeskGroup1" href="" coords="644,207,569,258" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="DeskGroup2" title="DeskGroup2" href="" coords="567,259,645,310" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="DeskGroup3" title="DeskGroup3" href="" coords="568,311,644,363" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="HR" title="HR" href="" coords="514,586,438,512" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="DeskGroup4" title="DeskGroup4" href="" coords="521,759,439,612" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="DeskGroup5" title="DeskGroup5" href="" coords="568,489,644,541" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="DeskGroup6" title="DeskGroup6" href="" coords="569,542,643,592" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="DeskGroup7" title="DeskGroup7" href="" coords="569,593,644,643" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="DeskGroup8" title="DeskGroup8" href="" coords="569,643,645,697" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="Office1" title="Office1" href="" coords="649,424,610,382" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="Office2" title="Office2" href="" coords="609,426,653,469" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="Reception" title="Reception" href="" coords="285,215,320,257" shape="rect" onClick="setWorkingArea(this)">
-				<area target="" alt="Office3" title="Office3" href="" coords="359,207,409,259" shape="rect" onClick="setWorkingArea(this)">
+				<area target="" alt="DeskGroup1" title="DeskGroup1" href="" coords="575,210,642,258" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="DeskGroup2" title="DeskGroup2" href="" coords="575,260,642,310" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="DeskGroup3" title="DeskGroup3" href="" coords="575,310,642,361" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="Office1" title="Office1" href="" coords="608,380,650,424" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="HR" title="HR" href="" coords="438,513,517,586" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="Office2" title="Office2" href="" coords="607,425,649,469" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="DeskGroup4" title="DeskGroup4" href="" coords="575,488,643,540" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="DeskGroup5" title="DeskGroup5" href="" coords="575,592,643,542" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="DeskGroup6" title="DeskGroup6" href="" coords="575,593,644,645" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="DeskGroup7" title="DeskGroup7" href="" coords="575,646,642,696" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="DeskGroup8" title="DeskGroup8" href="" coords="440,617,512,757" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="Reception" title="Reception" href="" coords="284,212,319,258" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="Office3" title="Office3" href="" coords="361,207,407,260" shape="rect" onClick="setWorkingArea(this); return false;">
 				
 				<!-- Meeting Rooms -->
-				<area target="" alt="TPGroundFloor" title="TPGroundFloor" href="" coords="216,207,282,294" shape="rect">
-				<area target="" alt="Canteen" title="Canteen" href="" coords="86,320,257,429" shape="rect">
-				<area target="" alt="JamesJoyce" title="JamesJoyce" href="" coords="410,207,477,259" shape="rect">
-				<area target="" alt="SamuelBeckett" title="SamuelBeckett" href="" coords="480,208,543,260" shape="rect">
-				<area target="" alt="OscarWilde" title="OscarWilde" href="" coords="568,382,606,423" shape="rect">
-				<area target="" alt="SeanCasey" title="SeanCasey" href="" coords="568,469,605,426" shape="rect">
-				<area target="" alt="SeamusHeaney" title="SeamusHeaney" href="" coords="650,697,567,744" shape="rect">
-				<area target="" alt="JohnSwift" title="JohnSwift" href="" coords="427,433,469,490" shape="rect">
-				<area target="" alt="WBYeats" title="WBYeats" href="" coords="471,431,547,490" shape="rect">
+				<area target="" alt="Canteen" title="Canteen" href="" coords="87,321,258,427" shape="rect" onClick="return false;">
+				<area target="" alt="SeamusHeaney" title="SeamusHeaney" href="" coords="570,700,648,747" shape="rect" onClick="return false;>
+				<area target="" alt="JonathonSwift" title="JonathonSwift" href="" coords="434,438,471,490" shape="rect" onClick="return false;>
+				<area target="" alt="OscarWilde" title="OscarWilde" href="" coords="569,381,605,422" shape="rect" onClick="return false;>
+				<area target="" alt="SeanOCasey" title="SeanOCasey" href="" coords="570,428,606,469" shape="rect" onClick="return false;>
+				<area target="" alt="SamuelBeckett" title="SamuelBeckett" href="" coords="481,207,541,261" shape="rect" onClick="return false;>
+				<area target="" alt="JamesJoyce" title="JamesJoyce" href="" coords="409,208,477,260" shape="rect" onClick="return false;>
+				<area target="" alt="TPGroundFloor" title="TPGroundFloor" href="" coords="218,207,279,296" shape="rect" onClick="return false;>
+				<area target="" alt="WBYeats" title="WBYeats" href="" coords="475,437,542,487" shape="rect" onClick="return false;>
 			</map>
 		</div>
 	</body>
 	<script>
+	
+	//Function to display the working area logo
 	function setWorkingArea(element){
+		
+		//Get details from the element passed as a parameter
 		var title = element.getAttribute("title");
 		var coordString = element.getAttribute("coords");
+		
+		//Get the icon and text elements
+		var workingAreaIcon = document.getElementById("workingArea");
+		var workingAreaText = document.getElementById("workingAreaText");
+		
+		//Split the coords so we can use each individual one
 		var coords = coordString.split(",");
-		transformCanvasOnImage();
-		changeColorOfArea(coords[0], coords[1], coords[2], coords[3])
-		alert(coords);
-		return false;
+
+		//Show the icon, and move it to our coordinates
+		workingAreaIcon.style.display = "block";
+		workingAreaIcon.style.left = coords[0]+"px";
+		workingAreaIcon.style.top = coords[1]+"px";
+		
+		//Set the content of the working area text to where the user clicked
+		workingAreaText.innerHTML = "You are working in: " + title;
 	}
-	function changeColorOfArea(x1, y1, x2, y2){
+	
+	//Old function used to draw on the canvas where the user clicked (issues with coordinate inconsitency)
+	function changeColorOfArea(x1, y1){
 		var canvas = document.getElementById("firstFloorCanvas");
 		var context = canvas.getContext("2d");		
-		context.fillStyle = "#FF0000";
-		context.fillRect(x1, y1, x2, y2);
+		context.fillStyle = "GREEN";
+		context.fillRect(x1, y1, 30, 10);		
 	}
-	function transformCanvasOnImage(){
-		var canvas = document.getElementById("firstFloorCanvas");
-		var image = document.getElementById("firstFloorImage");
-		canvas.style.position = "absolute";
-		canvas.style.left = image.offsetLeft;
-		canvas.style.top = image.offsetTop;		
-	}
+	//Next step is adding way points at all key intersection areas
+	//These way points will all add up to create a path (starting point -> waypoint 1 -> waypoint 2 -> meeting room)
+	//Waypoints are placed wherever there is a choice to be made
 	</script>
 </html>
