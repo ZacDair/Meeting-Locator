@@ -8,6 +8,7 @@
 	<h4 id="workingAreaText"> Selected Working Area: </h4>
 		<div id="container">
 			<img  id="workingArea" src="workingArea.png" alt="Working Area logo">
+			<img  id="meetingArea" src="giphy.gif" alt="Meeting Area logo">
 			<img id="background" src="firstFloor.png" alt="floorplan image">
 			<canvas id="firstFloorCanvas"></canvas>
 			<img id="transparentImg" src="transparent.png" alt="transparent image" usemap="#image-map">
@@ -20,7 +21,7 @@
 				<area target="" alt="HR" title="HR" href="" coords="438,513,517,586" shape="rect" onClick="setWorkingArea(this); return false;">
 				<area target="" alt="Office2" title="Office2" href="" coords="607,425,649,469" shape="rect" onClick="setWorkingArea(this); return false;">
 				<area target="" alt="DeskGroup4" title="DeskGroup4" href="" coords="575,488,643,540" shape="rect" onClick="setWorkingArea(this); return false;">
-				<area target="" alt="DeskGroup5" title="DeskGroup5" href="" coords="575,592,643,542" shape="rect" onClick="setWorkingArea(this); return false;">
+				<area target="" alt="DeskGroup5" title="DeskGroup5" href="" coords="575,590,643,542" shape="rect" onClick="setWorkingArea(this); return false;">
 				<area target="" alt="DeskGroup6" title="DeskGroup6" href="" coords="575,593,644,645" shape="rect" onClick="setWorkingArea(this); return false;">
 				<area target="" alt="DeskGroup7" title="DeskGroup7" href="" coords="575,646,642,696" shape="rect" onClick="setWorkingArea(this); return false;">
 				<area target="" alt="DeskGroup8" title="DeskGroup8" href="" coords="440,617,512,757" shape="rect" onClick="setWorkingArea(this); return false;">
@@ -28,20 +29,23 @@
 				<area target="" alt="Office3" title="Office3" href="" coords="361,207,407,260" shape="rect" onClick="setWorkingArea(this); return false;">
 				
 				<!-- Meeting Rooms -->
-				<area target="" alt="Canteen" title="Canteen" href="" coords="87,321,258,427" shape="rect" onClick="return false;">
-				<area target="" alt="SeamusHeaney" title="SeamusHeaney" href="" coords="570,700,648,747" shape="rect" onClick="return false;">
-				<area target="" alt="JonathonSwift" title="JonathonSwift" href="" coords="434,438,471,490" shape="rect" onClick="return false;">
-				<area target="" alt="OscarWilde" title="OscarWilde" href="" coords="569,381,605,422" shape="rect" onClick="return false;">
-				<area target="" alt="SeanOCasey" title="SeanOCasey" href="" coords="570,428,606,469" shape="rect" onClick="return false;">
-				<area target="" alt="SamuelBeckett" title="SamuelBeckett" href="" coords="481,207,541,261" shape="rect" onClick="return false;">
-				<area target="" alt="JamesJoyce" title="JamesJoyce" href="" coords="409,208,477,260" shape="rect" onClick="return false;">
-				<area target="" alt="TPGroundFloor" title="TPGroundFloor" href="" coords="218,207,279,296" shape="rect" onClick="return false;">
-				<area target="" alt="WBYeats" title="WBYeats" href="" coords="475,437,542,487" shape="rect" onClick="return false;">
+				<area target="" alt="Canteen" title="Canteen" href="" coords="87,321,258,427" shape="rect" onClick="drawLineToMeeting(this); return false;">
+				<area target="" alt="SeamusHeaney" title="SeamusHeaney" href="" coords="570,700,648,747" shape="rect" onClick="drawLineToMeeting(this); return false;">
+				<area target="" alt="JonathonSwift" title="JonathonSwift" href="" coords="434,438,471,490" shape="rect" onClick="drawLineToMeeting(this); return false;">
+				<area target="" alt="OscarWilde" title="OscarWilde" href="" coords="569,381,605,422" shape="rect" onClick="drawLineToMeeting(this); return false;">
+				<area target="" alt="SeanOCasey" title="SeanOCasey" href="" coords="570,428,606,469" shape="rect" onClick="drawLineToMeeting(this); return false;">
+				<area target="" alt="SamuelBeckett" title="SamuelBeckett" href="" coords="481,207,541,261" shape="rect" onClick="drawLineToMeeting(this); return false;">
+				<area target="" alt="JamesJoyce" title="JamesJoyce" href="" coords="409,208,477,260" shape="rect" onClick="drawLineToMeeting(this); return false;">
+				<area target="" alt="TPGroundFloor" title="TPGroundFloor" href="" coords="218,207,279,296" shape="rect" onClick="drawLineToMeeting(this); return false;">
+				<area target="" alt="WBYeats" title="WBYeats" href="" coords="475,437,542,487" shape="rect" onClick="drawLineToMeeting(this); return false;">
 			</map>
 		</div>
+		<div class="slidecontainer">
+			<input type="range" min="1" max="100" value="5" class="slider" id="slider">
+			</div>
 	</body>
 	<script>
-	
+	var workingArea = "undefined";
 	//Function to display the working area logo
 	function setWorkingArea(element){
 		
@@ -63,6 +67,7 @@
 		
 		//Set the content of the working area text to where the user clicked
 		workingAreaText.innerHTML = "You are working in: " + title;
+		workingArea = title;
 	}
 	
 	//Old function used to draw on the canvas where the user clicked (issues with coordinate inconsitency)
@@ -75,5 +80,52 @@
 	//Next step is adding way points at all key intersection areas
 	//These way points will all add up to create a path (starting point -> waypoint 1 -> waypoint 2 -> meeting room)
 	//Waypoints are placed wherever there is a choice to be made
+	
+	function drawLineToMeeting(element){
+		if(workingArea === "undefined"){
+			alert("Please select your working area first.")
+		}
+		else{
+			var workingAreaIcon = document.getElementById("workingArea");
+			var originX = workingAreaIcon.offsetLeft;
+			var originY = workingAreaIcon.offsetTop;
+			var coordString = element.getAttribute("coords");
+			var coords = coordString.split(",");
+			var canvas = document.getElementById("firstFloorCanvas");
+			var context = canvas.getContext("2d");
+			var coordString = element.getAttribute("coords");
+		
+			//Get the icon
+			var meetingAreaIcon = document.getElementById("meetingArea");			
+
+			//Show the icon, and move it to our coordinates
+			meetingAreaIcon.style.display = "block";
+			meetingAreaIcon.style.left = coords[0]+"px";
+			meetingAreaIcon.style.top = coords[1]+"px";
+		}
+	}
+	function drawBoard(gridSize){
+		var canvas = document.getElementById("firstFloorCanvas");
+		var context = canvas.getContext("2d");
+		var bw = canvas.width;
+		var bh = canvas.height;
+		var p = 0;
+		for (var x = 0; x <= bw; x += gridSize) {
+			context.moveTo(0.5 + x + p, p);
+			context.lineTo(0.5 + x + p, bh + p);
+		}
+		for (var x = 0; x <= bh; x += gridSize) {
+			context.moveTo(p, 0.5 + x + p);
+			context.lineTo(bw + p, 0.5 + x + p);
+		}
+		context.strokeStyle = "black";
+		context.stroke();
+	}
+	var slider = document.getElementById("slider");
+	slider.oninput = function(){
+		drawBoard(parseInt(slider.value));
+		console.log(slider.value);
+	}
+	//drawBoard(5)
 	</script>
 </html>
