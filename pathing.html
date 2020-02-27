@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+	
+	</body>
+	<script>
+	var startingPoint = {location:"0, 0", neighbours: ["10,10", "20,10", "10, 50"], used:true};
+	var endPoint = {location:"50, 50", neighbours: ["10,10"]};
+	var waypoint1 = {location:"10, 10", neighbours: ["0,0", "20,10"], used:false};
+	var waypoint2 = {location:"20, 10", neighbours: ["10,10", "30,10"], used:false};
+	var waypoint3 = {location:"30, 10", neighbours: ["20,10", "40,20"], used:false};
+	var waypoint4 = {location:"40, 20", neighbours: ["30,10", "50,20"], used:false};
+	var waypoints = [];
+	waypoints.push(waypoint1);
+	waypoints.push(waypoint2);
+	waypoints.push(waypoint3);
+	waypoints.push(waypoint4);
+	
+	//Calculate a travel cost irrespective of travel direction
+	function findTravelCost(point1, point2){
+		var coords1 = point1.split(",");
+		var coords2 = point2.split(",");
+		var cost = 0;
+		
+		//Add the coordinates together
+		cost = parseFloat(coords1[0]) + parseFloat(coords1[1]) + parseFloat(coords2[0]) + parseFloat(coords2[1])
+		return cost;
+	}
+	
+	//Find all neighbour points and check costs
+	function findNextPointOnPath(origin, destination, waypoints){
+		var path = [];
+		var currentLoc = origin.location;
+		//what if there is more than 1 neighbour ... else statement needed
+		if (origin.neighbours.length == 1){
+			currentLoc = origin.neighbours[0];
+		}
+		else{
+			var lowestCost = 1000000000;
+			var bestNeighbour = null;
+			for (neighbour of origin.neighbours){
+				if(neighbour.used){
+					//stop back tracking
+					console.log("skipped used waypoint");
+				}
+				else{
+					var ourCost = findTravelCost(origin.location, neighbour);
+					var endCost = findTravelCost(destination.location, neighbour);
+					var totalCost = ourCost + endCost;
+					console.log(neighbour,"totalCost:", totalCost);
+					if(totalCost < lowestCost){
+						lowestCost = totalCost;
+						bestNeighbour = neighbour;
+						neighbour.used = true;
+						console.log("origin:", origin.location, "best neighbour:", bestNeighbour, "cost is:", lowestCost);	
+					}
+				}
+			}
+				
+		}
+	}
+	
+	
+	
+	findNextPointOnPath(startingPoint, endPoint, waypoints);
+	findNextPointOnPath(waypoint1, endPoint, waypoints);
+	</script>
+</html>
