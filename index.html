@@ -8,9 +8,9 @@
 	<h4 id="workingAreaText"> Selected Working Area: </h4>
 		<div id="container">
 			<img  id="workingArea" src="workingArea.png" alt="Working Area logo">
-			<img  id="meetingArea" src="giphy.gif" alt="Meeting Area logo">
+			<img  id="meetingArea" src="star.gif" alt="Meeting Area logo">
 			<img id="background" src="firstFloor.png" alt="floorplan image">
-			<canvas id="firstFloorCanvas"></canvas>
+			<canvas id="firstFloorCanvas" width="807" height="869"></canvas>
 			<img id="transparentImg" src="transparent.png" alt="transparent image" usemap="#image-map">
 			<map name="image-map">
 				<!-- Working Spaces -->
@@ -102,6 +102,13 @@
 			meetingAreaIcon.style.display = "block";
 			meetingAreaIcon.style.left = coords[0]+"px";
 			meetingAreaIcon.style.top = coords[1]+"px";
+			
+			//draw a line			
+			context.moveTo(coords[0],coords[1]);
+			context.lineTo(originX,originY);
+			context.strokeStyle = "green";
+			context.lineWidth = 5;
+			context.stroke();
 		}
 	}
 	function drawBoard(gridSize){
@@ -124,7 +131,6 @@
 	var slider = document.getElementById("slider");
 	slider.oninput = function(){
 		drawBoard(parseInt(slider.value));
-		console.log(slider.value);
 	}
 	//drawBoard(5)
 	</script>
