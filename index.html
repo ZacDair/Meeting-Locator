@@ -68,6 +68,9 @@
 		//Set the content of the working area text to where the user clicked
 		workingAreaText.innerHTML = "You are working in: " + title;
 		workingArea = title;
+		
+		//run pathing from start
+		drawLineToEveryPoint(coordString);
 	}
 	
 	//Old function used to draw on the canvas where the user clicked (issues with coordinate inconsitency)
@@ -133,5 +136,22 @@
 		drawBoard(parseInt(slider.value));
 	}
 	//drawBoard(5)
+	
+	function drawLineToEveryPoint(start){
+		var canvas = document.getElementById("firstFloorCanvas");
+		var context = canvas.getContext("2d");
+		var waypoints = ["559,230","557,277","488,272","419,271","367,273","319,276","282,305","225,304","97,310","324,323","336,374","556,334","472,333","420,332","553,371","558,482","556,555","554,624","556,702"];
+		for (x of waypoints){
+			var coords = x.split(",");
+			var origin = start.split(",");
+			context.moveTo(coords[0],coords[1]);
+			context.lineTo(origin[0],origin[1]);
+			start = x;
+		}
+		context.strokeStyle = "green";
+		context.lineWidth = 5;
+		context.stroke();	
+	
+	}
 	</script>
 </html>

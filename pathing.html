@@ -7,6 +7,7 @@
 	
 	</body>
 	<script>
+	var doneList = []
 	var startingPoint = {location:"0, 0", neighbours: ["10,10", "20,10", "10, 50"]};
 	var endPoint = {location:"50, 50", neighbours: ["10,10"]};
 	var waypoint1 = {location:"10, 10", neighbours: ["0,0", "20,10"]};
@@ -56,15 +57,23 @@
 		else{
 			var lowestCost = 1000000000;
 			var bestNeighbour = null;
-			for (neighbour of origin.neighbours){				
-				var ourCost = findTravelCost(origin.location, neighbour);
-				var endCost = findTravelCost(destination.location, neighbour);
-				var totalCost = ourCost + endCost;
-				console.log(neighbour,"totalCost:", totalCost);
-				if(totalCost < lowestCost){
-					lowestCost = totalCost;
-					bestNeighbour = neighbour;
-					console.log("origin:", origin.location, "best neighbour:", bestNeighbour, "cost is:", lowestCost);	
+			for (neighbour of origin.neighbours){
+				console.log(doneList, neighbour);
+				if(doneList.includes(neighbour)){
+					console.log("Skipped");
+				}
+				else{
+					var ourCost = findTravelCost(origin.location, neighbour);
+					var endCost = findTravelCost(destination.location, neighbour);
+					var totalCost = ourCost + endCost;
+					console.log(neighbour,"totalCost:", totalCost);
+					if(totalCost < lowestCost){
+						lowestCost = totalCost;
+						bestNeighbour = neighbour;
+						console.log("origin:", origin.location, "best neighbour:", bestNeighbour, "cost is:", lowestCost);
+						doneList.push(bestNeighbour);
+						console.log("donelist: ", doneList);
+					}
 				}
 			}				
 		}
