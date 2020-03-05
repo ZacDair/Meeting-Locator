@@ -40,9 +40,6 @@
 				<area target="" alt="WBYeats" title="WBYeats" href="" coords="475,437,542,487" shape="rect" onClick="drawLineToMeeting(this); return false;">
 			</map>
 		</div>
-		<div class="slidecontainer">
-			<input type="range" min="1" max="100" value="5" class="slider" id="slider">
-			</div>
 	</body>
 	<script>
 	var workingArea = "undefined";
@@ -70,7 +67,7 @@
 		workingArea = title;
 		
 		//run pathing from start
-		drawLineToEveryPoint(coordString);
+		findNearestPoint(coordString);
 	}
 	
 	//Old function used to draw on the canvas where the user clicked (issues with coordinate inconsitency)
@@ -114,44 +111,90 @@
 			context.stroke();
 		}
 	}
-	function drawBoard(gridSize){
-		var canvas = document.getElementById("firstFloorCanvas");
-		var context = canvas.getContext("2d");
-		var bw = canvas.width;
-		var bh = canvas.height;
-		var p = 0;
-		for (var x = 0; x <= bw; x += gridSize) {
-			context.moveTo(0.5 + x + p, p);
-			context.lineTo(0.5 + x + p, bh + p);
-		}
-		for (var x = 0; x <= bh; x += gridSize) {
-			context.moveTo(p, 0.5 + x + p);
-			context.lineTo(bw + p, 0.5 + x + p);
-		}
-		context.strokeStyle = "black";
-		context.stroke();
-	}
-	var slider = document.getElementById("slider");
-	slider.oninput = function(){
-		drawBoard(parseInt(slider.value));
-	}
-	//drawBoard(5)
 	
-	function drawLineToEveryPoint(start){
-		var canvas = document.getElementById("firstFloorCanvas");
+	function findNearestPoint(start){
+		var canvas = document.getElementById("firstFloorCanvas");		
 		var context = canvas.getContext("2d");
+		
+		//Set our waypoints based on image-map manual point generation
 		var waypoints = ["559,230","557,277","488,272","419,271","367,273","319,276","282,305","225,304","97,310","324,323","336,374","556,334","472,333","420,332","553,371","558,482","556,555","554,624","556,702"];
-		for (x of waypoints){
-			var coords = x.split(",");
+		var end = [475, 437];
+		
+		//Set lowestCost and bestMove to null as they havent been found yet
+		var lowestCost = null;
+		var bestMove = null;
+		
+		//Create a list for the coordinates we have already used
+		var closed = [];
+		
+		//Use i counter to allow the algorithm to run 5 times (overshoots meeting rooms if they are less than 5 steps away)
+		var i = 0;
+		while(i <= 5){
+		
+			//Loop through the waypoints
+			for (x of waypoints){
+			
+				//If the current waypoint isn't our starting point, and hasn't already been used - possibly redundant having the x != start
+				if( x != start && !closed.includes(x)){
+				
+					//Split our strings to get the numerical coordinates
+					var XCoords = x.split(",");
+					var startCoords = start.split(",");
+					
+					//Get the distance from start to the current waypoint
+					var startToX = findDistance(startCoords, XCoords);
+					
+					//Get the distance from the current waypoint to the goal
+					var xToGoal = findDistance(XCoords, end);
+					
+					//Add the distances to get a total distance from our starting point through our current waypoint and to the goal
+					var totalDistance = parseInt(xToGoal) + parseInt(startToX);
+					
+					//If the lowestCost hasn't been set yet, set the best move and lowest amount to our current waypoint
+					if(lowestCost == null){
+						lowestCost = totalDistance;
+						bestMove = x;
+					}
+					
+					//If the lowestCost was already set then check to see if our total distance is less than the lowest distance
+					else{
+						if (totalDistance < lowestCost){
+							lowestCost = totalDistance;
+							bestMove = x;
+						}						
+					}
+				}
+			}
+			//Draw a line from our starting point to the best waypoint
 			var origin = start.split(",");
-			context.moveTo(coords[0],coords[1]);
-			context.lineTo(origin[0],origin[1]);
-			start = x;
+			var coords = bestMove.split(",");
+			context.moveTo(origin[0],origin[1]);
+			context.lineTo(coords[0],coords[1]);
+			
+			//Set our next starting move as the current best move
+			start = bestMove;
+			
+			//Add our current waypoint to the list of used waypoints
+			closed.push(bestMove);
+			
+			//Set our lowest cost back to null for the next iteration of the loop
+			lowestCost = null;
+			
+			//Increment i for looping
+			i = i + 1;
 		}
+		
+		//Various context style settings
 		context.strokeStyle = "green";
 		context.lineWidth = 5;
-		context.stroke();	
+		context.stroke();
+	}
 	
+	//Use the distance formula return the distance between two points
+	function findDistance(start, coords){		
+		var distance = Math.sqrt( Math.pow((start[0]-coords[0]), 2) + Math.pow((coords[1]-start[1]), 2) );
+		//console.log("distance:",distance);
+		return distance;
 	}
 	</script>
 </html>
