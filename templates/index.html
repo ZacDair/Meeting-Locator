@@ -4,10 +4,18 @@
 </head>
 <body>
     <h1>Upload Floor Plan</h1>
-    <form action="http://localhost:5000/uploader" method="POST"
-         enctype="multipart/form-data">
-         <input type="file" name="file" accept="image/*"/>
-         <input type="submit"/>
+    <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
+        <label for="file">Upload a floor plan image</label><br>
+        <input type="file" name="file" accept="image/*"/><br><br>
+        <label for="toleranceSlider">Select a tolerance value</label><br>
+        <input type="range" min="0" max="255" value="50" class="slider" id="toleranceSlider"><br><br>
+        <input type="radio" id="Auto" name="Auto" value="Auto">
+        <label for="Auto"> Auto Processing</label>
+        <input type="radio" id="BW" name="BW" value="BW">
+        <label for="BW"> Black and White Processing</label>
+        <input type="radio" id="None" name="None" value="None">
+        <label for="None"> No Processing</label><br>
+        <input type="submit"/>
     </form>
 </body>
 </HTML>
