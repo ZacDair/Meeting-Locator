@@ -87,7 +87,7 @@ def upload_file():
                 w = pixelData[0]*10
                 h = pixelData[1]*10
                 rects = generateRectHtml(pixelData)
-                return render_template('gridScreen.html', gridData=rects, width=w, height=h)
+                return render_template('admin.html', gridData=rects, width=w, height=h)
 
             else:
                 return redirect("http://localhost:5000", code=400)

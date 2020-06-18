@@ -1,0 +1,76 @@
+<HTML lang="EN">
+<head>
+    <title>Admin Grid Check/Edit</title>
+</head>
+<body>
+    <script>
+
+        //counter to track clicks, starting loc and destination html elements, original hex codes
+        let counter = 0;
+        let startLoc =null;
+        let destination = null;
+        let originalStartColor =null;
+        let originalDestinationColor =null;
+
+        //function triggered on cell click, 1st click starting point, 2nd destination, 3rd clears
+        function setStatus(rect){
+            switch(counter){
+
+                //Set the starting point
+                case 0:
+                    startLoc = rect;
+                    originalStartColor = rect.style.fill;
+                    rect.style.fill = "#008000";
+                    console.log("starting location set")
+                    counter = 1;
+                    break;
+
+                //Set the destination
+                case 1:
+                    destination = rect;
+                    originalDestinationColor = rect.style.fill;
+                    rect.style.fill = "#FF0000";
+                    console.log("destination location set")
+                    counter = 2;
+                    break;
+
+                //Clear previous assignments
+                case 2:
+                    startLoc.style.fill = originalStartColor;
+                    destination.style.fill = originalDestinationColor;
+                    startLoc = null;
+                    destination = null;
+                    console.log("locations cleared");
+                    counter = 0;
+                    break;
+            }
+        }
+
+        function checkStatus(){
+            if(startLoc != null && destination != null){
+                document.getElementById("startLocInput").innerText = startLoc;
+                document.getElementById("destinationLocInput").innerText = destination;
+                return true;
+
+            }
+            else{
+                console.log("Error start location or destination weren't set");
+                alert("Please set the starting location and the destination first");
+                return false;
+            }
+
+        }
+    </script>
+    <h1>Floorplan Grid</h1>
+    <svg height={{height}} version="1.1" width={{width}} xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;">
+    {% for rect in gridData %}
+        {{rect|safe}}
+    {% endfor %}
+    </svg>
+    <form action="" method="POST">
+        <input name="gridButton" type="submit" onclick="checkStatus()" value="Start Search">
+        <input id="startLocInput" name="startLocation" type="hidden" value="dadada">
+        <input id="destinationLocInput" name="destination" type="text" value="dadqe1e3ed">
+    </form>
+</body>
+</HTML>
