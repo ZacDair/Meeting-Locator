@@ -4,7 +4,6 @@
 </head>
 <body>
     <script>
-
         //counter to track clicks, starting loc and destination html elements, original hex codes
         let counter = 0;
         let startLoc =null;
@@ -27,7 +26,7 @@
                         startLoc = rect;
                         originalStartColor = rect.style.fill;
                         rect.style.fill = "#008000";
-                        console.log("starting location set")
+                        console.log("starting location set");
                         counter = 1;
                         break;
 
@@ -36,7 +35,7 @@
                         destination = rect;
                         originalDestinationColor = rect.style.fill;
                         rect.style.fill = "#FF0000";
-                        console.log("destination location set")
+                        console.log("destination location set");
                         counter = 2;
                         break;
 
@@ -52,7 +51,7 @@
                 }
             }
             else if (generalMode === "Edit"){
-                console.log(editMode)
+                console.log(editMode);
                 if (editMode === "Place"){
                     rect.style.fill = "#000000";
                 }
@@ -95,7 +94,6 @@
                 document.getElementById("editOptions").style.left = "-1000px";
                 document.getElementById("testOptions").style.left = "8px";
             }
-
         }
 
         //Toggle Erase mode for editing the floor plan
@@ -107,12 +105,9 @@
                 editMode = "Place";
             }
         }
-
     </script>
-
     <h1>Floorplan Grid</h1>
-
-    <div id="gridArea" onmousemove="">
+    <div id="gridArea">
         <svg height={{height}} version="1.1" width={{width}} xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;">
         {% for rect in gridData %}
             <rect id="rect-{{rect[0]}}" x="{{rect[1]}}" y="{{rect[2]}}" width="10" height="10" fill="{{rect[3]}}" stroke="#000" onClick="setStatus(this);"></rect>
@@ -133,6 +128,7 @@
             <input name="gridButton" type="submit" onclick="checkStatus()" value="Start Search">
         </form>
     </div>
+    <button onclick="testing()">test</button>
 
 </body>
 </HTML>
