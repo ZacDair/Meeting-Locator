@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from PIL import Image
+import pymysql
 app = Flask(__name__)
 
 
@@ -44,8 +45,8 @@ def convertRgbToHex(rgb):
     return '#{:02x}{:02x}{:02x}'.format(int(rgb[0]), int(rgb[1]), int(rgb[2]))
 
 
-# Returns the hex code for white or black
-def blackAndWhiteProcessing(rgb, tolerance):
+# Returns the hex code for white or black based on the tolerance of what is considered black or white
+def toleranceTiedProcessing(rgb, tolerance):
     # if less than tolerance -> black, else white
     if int(rgb[0]) <= tolerance or int(rgb[1]) <= tolerance or int(rgb[2]) <= tolerance:
         return "#000000"
@@ -94,7 +95,7 @@ def takeCount(listItem):
     return listItem[1][0]
 
 
-def generateRectHtml(pixelData, processingMethod):
+def generateRectHtml(pixelData, processingMethod, tolerance):
     # Set starting values
     rects = []
     x = 0
@@ -115,8 +116,8 @@ def generateRectHtml(pixelData, processingMethod):
     for val in pixelData:
         if processingMethod == "Auto":
             hexVal = colorInFloors(val[2], floors)
-        elif processingMethod == "BW":
-            hexVal = blackAndWhiteProcessing(val[2], 200)
+        elif processingMethod == "TTied":
+            hexVal = toleranceTiedProcessing(val[2], tolerance)
         else:
             hexVal = convertRgbToHex(val[2])
         temp = '<rect id="rect-'+str(index)+'" x="'+str(x)+'" y="'+str(y)+'" width="10" height="10" fill="'+hexVal+'" stroke="#000" onClick="setStatus(this);"></rect>'
@@ -143,29 +144,37 @@ def upload_file():
 
         # Convert post request data to a dict
         postResults = request.values.to_dict()
-        
-        # Loop through the post results to get the data
-        processingMethod = ""
-        for x in postResults:
-            processingMethod = x
+
+        # Get actual values from our post request form that's now a dict
+        # TO DO: Needs error checking in case the required values aren't in the dict
+        tolerance = int(postResults["tolerance"])
+        processingMethod = postResults["processingOption"]
 
         # Set the processing method to none if something else was sent and print an error
-        if processingMethod != "Auto" and processingMethod != "BW" and processingMethod != "None":
+        if processingMethod != "Auto" and processingMethod != "TTied" and processingMethod != "None":
             processingMethod = "Auto"
             print("Error - the processing method was a different value than expected")
 
         # Server side file checking (can be faked if the file uploaded has the name to fit these conditions)
+        # TO DO: Test if it can actually be faked
         if str(f.filename).endswith(('.png', '.jpeg', '.jpg', '.PNG')):
 
             # If file is accepted try to get the pixel data, use to generate the rect elements and send to grid page
             pixelData = getPixelData(f)
             w = pixelData[0]*10
             h = pixelData[1]*10
-            rects = generateRectHtml(pixelData, processingMethod)
+            rects = generateRectHtml(pixelData, processingMethod, tolerance)
             return render_template('admin.html', gridData=rects, width=w, height=h)
 
         else:
             return redirect("http://localhost:5000", code=400)
+
+
+@app.route('/database')
+def database():
+    # Attempt to connect to the database - if it works return true else false
+    con = pymysql.connect(host='176.34.142.64', port='53', user='ubuntu', password='root', database='mediScreenDatabase')
+    print(con)
 
 
 if __name__ == '__main__':
