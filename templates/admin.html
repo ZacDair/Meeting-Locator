@@ -115,7 +115,7 @@
     <div id="gridArea" onmousemove="">
         <svg height={{height}} version="1.1" width={{width}} xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;">
         {% for rect in gridData %}
-            {{rect|safe}}
+            <rect id="rect-{{rect[0]}}" x="{{rect[1]}}" y="{{rect[2]}}" width="10" height="10" fill="{{rect[3]}}" stroke="#000" onClick="setStatus(this);"></rect>
         {% endfor %}
         </svg>
     </div>

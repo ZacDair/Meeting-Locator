@@ -120,7 +120,7 @@ def generateRectHtml(pixelData, processingMethod, tolerance):
             hexVal = toleranceTiedProcessing(val[2], tolerance)
         else:
             hexVal = convertRgbToHex(val[2])
-        temp = '<rect id="rect-'+str(index)+'" x="'+str(x)+'" y="'+str(y)+'" width="10" height="10" fill="'+hexVal+'" stroke="#000" onClick="setStatus(this);"></rect>'
+        temp = [str(index), str(x), str(y), hexVal]
         rects.append(temp)
         index = index + 1
         x = x + 10
