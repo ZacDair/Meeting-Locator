@@ -23,19 +23,21 @@
 
                     //Set the starting point
                     case 0:
-                        startLoc = rect;
+                        startLoc = rect.id;
                         originalStartColor = rect.style.fill;
                         rect.style.fill = "#008000";
                         console.log("starting location set");
+                        console.log(startLoc);
                         counter = 1;
                         break;
 
                     //Set the destination
                     case 1:
-                        destination = rect;
+                        destination = rect.id;
                         originalDestinationColor = rect.style.fill;
                         rect.style.fill = "#FF0000";
                         console.log("destination location set");
+                        console.log(destination);
                         counter = 2;
                         break;
 
@@ -105,6 +107,7 @@
                 editMode = "Place";
             }
         }
+
     </script>
     <h1>Floorplan Grid</h1>
     <div id="gridArea">
@@ -128,8 +131,7 @@
             <input name="gridButton" type="submit" onclick="checkStatus()" value="Start Search">
         </form>
     </div>
-    <script src="pathingMethods.js" type="text/javascript"></script>
-    <button onclick="debug()">test</button>
-
+    <script type="text/javascript" src="{{ url_for('static', filename='pathingMethods.js') }}"></script>
+    <button onclick="debug(startLoc, destination, {{ gridData }})">test</button>
 </body>
 </HTML>
