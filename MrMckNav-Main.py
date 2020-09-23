@@ -4,15 +4,18 @@ import pymysql
 app = Flask(__name__)
 
 
+# This function takes in a file object (an image) and retrieves each pixel into a pixel data list.
+# Pixel Data List item structure: [x coordinate, y coordinate, RBG value]
+# The image is processed and if it is bigger than the max width it will be scaled down using antialiasing
 def getPixelData(file):
     # Open the file as an image
     im = Image.open(file)
 
     # Get width and height
     width, height = im.size
-    maxWidth = 100
+    maxWidth = 50
 
-    # Shrink but keep aspect ratio, if the width is bigger than 100
+    # Shrink but keep aspect ratio, if the width is bigger than the max width
     if width > maxWidth:
         wpercent = (maxWidth / float(im.size[0]))
         hsize = int((float(im.size[1]) * float(wpercent)))
@@ -41,6 +44,7 @@ def getPixelData(file):
     return pixelData
 
 
+# This function converts the standard RBG value into a hex code
 def convertRgbToHex(rgb):
     return '#{:02x}{:02x}{:02x}'.format(int(rgb[0]), int(rgb[1]), int(rgb[2]))
 
@@ -54,7 +58,7 @@ def toleranceTiedProcessing(rgb, tolerance):
         return "#FFFFFF"
 
 
-# Loop to remove count from color list
+# Loop to remove count from color list, count was an unused bi-product of a previous function
 def colorsRefine(colors):
     i = 0
     while i < len(colors):
@@ -71,7 +75,7 @@ def colorSortAndRefine(colors):
     # Remove count from colors
     colors = colorsRefine(colors)
 
-    # Group colors if there is two biggest is floor, lowest is walls
+    # Group colors if there is two values then the biggest is floor, lowest is walls
     # else use 50/50 split
     if len(colors) == 2:
         floors = colors[0]
@@ -95,6 +99,10 @@ def takeCount(listItem):
     return listItem[1][0]
 
 
+# Function to create and return the rect element html code for the webpage
+# This function takes into account the pixel data found earlier, the processing method,
+# and the tolerance value (only used if the tolerance tied processing method is used)
+# This function is called after the image has been uploaded and submitted to the backend from the index.html page
 def generateRectHtml(pixelData, processingMethod, tolerance):
     # Set starting values
     rects = []
@@ -108,10 +116,15 @@ def generateRectHtml(pixelData, processingMethod, tolerance):
     # Get colors out of the pixelData list
     colors = pixelData.pop(0)
     floors = []
+
+    # If we are using automatic processing, sort the colors in order to find the floor cells
     if processingMethod == "Auto":
         floors = colorSortAndRefine(colors)
 
-    # Cycle through our pixel data creating the html rect element with the values
+    # Cycle through our pixel data, creating an element for each pixel using the processing method,
+    # The processing method defines how the pixel is considered a floor or a wall cell.
+    # The distinction between floor and wall cells is that floor cells are white #000000 and walls are black #FFFFFF
+    # The rects list stores these values [index, x coord, y coord, hex code] for each cell
     index = 0
     for val in pixelData:
         if processingMethod == "Auto":
@@ -132,13 +145,16 @@ def generateRectHtml(pixelData, processingMethod, tolerance):
     return rects
 
 
+# Render our index.html page as a default starting page
 @app.route('/')
 def home():
     return render_template('index.html')
 
 
+# Render our admin.html page when /uploader is accessed
 @app.route('/uploader', methods=['GET', 'POST'])
 def upload_file():
+    # if we accessed this page through a post request check for a file
     if request.method == 'POST':
         f = request.files['file']
 
@@ -159,7 +175,7 @@ def upload_file():
         # TO DO: Test if it can actually be faked
         if str(f.filename).endswith(('.png', '.jpeg', '.jpg', '.PNG')):
 
-            # If file is accepted try to get the pixel data, use to generate the rect elements and send to grid page
+            # If file is accepted try to get the pixel data, to generate the rect elements values and send to grid page
             pixelData = getPixelData(f)
             w = pixelData[0]*10
             h = pixelData[1]*10
@@ -170,10 +186,11 @@ def upload_file():
             return redirect("http://localhost:5000", code=400)
 
 
+# Test route for if /database is accessed, this was an attempt at database integration, more work needed
 @app.route('/database')
 def database():
-    # Attempt to connect to the database - if it works return true else false
-    con = pymysql.connect(host='176.34.142.64', port='53', user='ubuntu', password='root', database='mediScreenDatabase')
+    # Attempt to connect to the database - values were removed
+    con = pymysql.connect(host='IP', port='PORT', user='USER', password='PASS', database='DATABASE NAME')
     print(con)
 
 
